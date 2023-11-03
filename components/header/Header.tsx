@@ -4,7 +4,7 @@ import { usePlatform } from "$store/sdk/usePlatform.tsx";
 import type { ImageWidget } from "apps/admin/widgets.ts";
 import type { SiteNavigationElement } from "apps/commerce/types.ts";
 import Alert from "./Alert.tsx";
-import Navbar from "./Navbar.tsx";
+import Navbar from "$store/islands/Header/Navbar.tsx";
 import { headerHeight } from "./constants.ts";
 
 export interface Props {
