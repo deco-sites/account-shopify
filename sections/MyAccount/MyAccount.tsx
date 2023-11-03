@@ -1,1 +1,1 @@
-export { default } from "$store/components/myaccount/MyAccount.tsx";
+export { default } from "$store/islands/MyAccount.tsx";

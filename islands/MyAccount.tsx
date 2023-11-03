@@ -28,6 +28,8 @@ function Field({ label, value }: { label: string; value: string }) {
 }
 
 function MyAccount({}: Props) {
+  const [selectedOption, setSelectedOption] = useState("Dados")
+
   return (
     <div class="px-44 py-10 bg-gray-100">
       <div class="flex gap-10">
@@ -40,15 +42,14 @@ function MyAccount({}: Props) {
             </div>
           </div>
           <div class="flex flex-col">
-            <Button onClick={() => {}} label="Dados" />
-            <Button onClick={() => {}} label="Pedidos" />
+            <Button onClick={setSelectedOption} label="Dados" />
+            <Button onClick={setSelectedOption} label="Pedidos" />
             <Button onClick={() => {}} label="Endereços" />
             <Button onClick={() => {}} label="Cartões" />
             <Button onClick={() => {}} label="Sair" />
           </div>
         </div>
-
-        {true
+        {selectedOption === "Dados"
           ? (
             <div class="rounded-md w-3/5">
               <div class="text-3xl text-gray-700 font-bold mb-6">
