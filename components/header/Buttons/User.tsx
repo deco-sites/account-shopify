@@ -3,7 +3,7 @@ import Icon from "$store/components/ui/Icon.tsx";
 import { useUI } from "$store/sdk/useUI.ts";
 
 export default function UserButton() {
-  const { count } = useUI();
+  const { displayLoginModal } = useUI();
 
   return (
     <>
@@ -11,10 +11,10 @@ export default function UserButton() {
         class="btn-circle btn-sm btn-ghost hidden sm:block"
         aria-label="search icon button"
         onClick={() => {
-          console.log("ramon")
+          displayLoginModal.value = !displayLoginModal.value
         }}
       >
-        RAMON<Icon id="MagnifyingGlass" size={24} strokeWidth={0.1} />
+        <Icon id="User" size={24} strokeWidth={0.4} />
       </Button>
     </>
   );

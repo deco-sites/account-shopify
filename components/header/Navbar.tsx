@@ -7,14 +7,12 @@ import CartButtonVDNA from "$store/islands/Header/Cart/vnda.tsx";
 import CartButtonVTEX from "$store/islands/Header/Cart/vtex.tsx";
 import CartButtonWake from "$store/islands/Header/Cart/wake.tsx";
 import Searchbar from "$store/islands/Header/Searchbar.tsx";
+import LoginModal from "$store/islands/LoginModal.tsx";
 import { usePlatform } from "$store/sdk/usePlatform.tsx";
 import type { SiteNavigationElement } from "apps/commerce/types.ts";
 import Image from "apps/website/components/Image.tsx";
 import NavItem from "./NavItem.tsx";
 import { navbarHeight } from "./constants.ts";
-import { useUI } from "deco-sites/account-shopify/sdk/useUI.ts";
-import Button from "$store/components/ui/Button.tsx";
-
 export interface Props {
   items: SiteNavigationElement[];
   searchbar?: SearchbarProps;
@@ -23,7 +21,6 @@ export interface Props {
 
 function Navbar({ items, searchbar, logo }: Props) {
   const platform = usePlatform();
-  const { count } = useUI()
 
   return (
     <>
@@ -68,9 +65,10 @@ function Navbar({ items, searchbar, logo }: Props) {
         <div class="flex-auto flex justify-center">
           {items.map((item) => <NavItem item={item} />)}
         </div>
-        <div class="flex-none w-44 flex items-center justify-end gap-2">
-          <UserButton/>
+        <div class="relative flex-none w-44 flex items-center justify-end gap-2">
+          <LoginModal/>
           <SearchButton />
+          <UserButton/>
           <Searchbar searchbar={searchbar} />
           {/* <Button
             class="btn btn-circle btn-sm btn-ghost"
