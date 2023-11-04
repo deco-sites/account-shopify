@@ -17,4 +17,13 @@ export interface UserOrder {
   status: string;
 }
 
+export interface CustomerInfo {
+  id: string
+  firstName: string
+  lastName: string
+  acceptsMarketing: boolean
+  email: string
+  phone: string
+}
+
 export type UserOrders = UserOrder[];

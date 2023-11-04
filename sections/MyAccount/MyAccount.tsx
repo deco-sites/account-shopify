@@ -1,6 +1,6 @@
 import { SectionProps } from "deco/types.ts";
 import MyAccountIsland from "$store/islands/MyAccount.tsx";
-import { UserInfo, UserOrders } from "$store/types.ts";
+import { UserInfo, UserOrders, CustomerInfo } from "$store/types.ts";
 import { getCustomerAccessToken } from "$store/utils/user.ts";
 import {
   mkAdminFetcher,
@@ -33,9 +33,8 @@ async function extractUserInfo(token?: string | null) {
       }
     }`);
 
-    const customer = data.customer;
+    const customer: CustomerInfo = data.customer;
     const customerId = customer.id.split("/").pop();
-
     return {
       ...customer,
       customerId,
@@ -82,23 +81,14 @@ export async function loader(props: Props, _req: Request) {
   const token = getCustomerAccessToken(_req.headers);
   const userInfo = await extractUserInfo(token);
   const orders = await getCustomerOrders(userInfo?.customerId);
-
-  return { orders };
+  return { orders, userInfo };
 }
 
 function MyAccount({
   orders,
+  userInfo,
 }: SectionProps<Awaited<ReturnType<typeof loader>>>) {
-  return (
-    <>
-      <div>
-        <MyAccountIsland orders={orders} />
-      </div>
-      <p>
-        {JSON.stringify(orders, null, 2)}
-      </p>
-    </>
-  );
+  return <MyAccountIsland orders={orders} userInfo={userInfo} />;
 }
 
 export default MyAccount;

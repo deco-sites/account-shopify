@@ -1,10 +1,11 @@
 import Avatar from "deco-sites/account-shopify/components/ui/Avatar.tsx";
-import { UserOrders } from "$store/types.ts";
+import { UserOrders, CustomerInfo } from "$store/types.ts";
 import { useState } from "preact/hooks";
 
 
 export interface Props {
   orders: UserOrders | null;
+  userInfo: CustomerInfo | null;
 }
 
 function Button(
@@ -35,9 +36,9 @@ function Field({ label, value }: { label: string; value: string }) {
   );
 }
 
-function MyAccount({ orders }: Props) {
+function MyAccount({ orders, userInfo }: Props) {
   const [selectedOption, setSelectedOption] = useState("Pedidos");
-
+  console.log('userinfo', userInfo)
   return (
     <div class="px-44 py-10 bg-gray-100">
       <div class="flex gap-10">
@@ -73,11 +74,11 @@ function MyAccount({ orders }: Props) {
               </div>
               <div class="shadow-md bg-white w-full">
                 <div class="grid grid-cols-2 p-10 w-full">
-                  <Field label="Nome" value="Felipe" />
-                  <Field label="Sobrenome" value="Mota" />
+                  <Field label="Nome" value={userInfo?.firstName || ""} />
+                  <Field label="Sobrenome" value={userInfo?.lastName || ""} />
                 </div>
                 <div class="grid grid-cols-2 p-10 w-full">
-                  <Field label="E-mail" value="felipemota@gmail.com" />
+                  <Field label="E-mail" value={userInfo?.email || ""} />
                 </div>
                 <div class="grid grid-cols-2 p-10 w-full">
                   <Field label="CPF" value="112.321.654-32" />
@@ -95,15 +96,16 @@ function MyAccount({ orders }: Props) {
               <div class="text-3xl text-gray-700 font-bold mb-6">Pedidos</div>
               <div class="rounded-md  shadow-md bg-white w-full">
                 <table class="w-full">
-                  <tr class="w-full h-10">
+                  <tr class="w-full h-14 border-b">
                     <th>ID</th>
+                    <th>Nome</th>
                     <th>Preço Total</th>
                     <th>Data da compra</th>
                     <th>Status de Pagamento</th>
                   </tr>
                   {orders?.map((order) => {
                     return (
-                      <tr class="w-full text-center h-10">
+                      <tr class="w-full text-center h-20">
                         <td>{order.name}</td>
                         <td>{order.totalPrice}</td>
                         <td>{(new Date(order.createdAt)).toDateString()}</td>

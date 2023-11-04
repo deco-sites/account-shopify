@@ -36,7 +36,9 @@ const action = async (
 
     console.log("set customer token", token);
     setCustomerAccessToken(ctx.response.headers, token);
+    return token
   } catch (error) {
+    return undefined
   }
 };
 

@@ -122,7 +122,6 @@ function Header({
   return (
     <>
       <header style={{ height: headerHeight }}>
-        <p>{JSON.stringify(userInfo)}</p>
         <Drawers
           menu={{ items }}
           searchbar={searchbar}

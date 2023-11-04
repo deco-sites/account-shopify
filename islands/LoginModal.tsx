@@ -17,12 +17,13 @@ function LoginModal() {
     email: string;
     password: string;
   }) => {
-    await invoke["deco-sites/account-shopify"].actions.user.login(
+    const response = await invoke["deco-sites/account-shopify"].actions.user.login(
       {
         email,
         password,
       },
     );
+    location.href = "/my-account";
   }, []);
 
   return (
