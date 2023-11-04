@@ -22,7 +22,7 @@ async function extractUserInfo(token?: string | null) {
   try {
     const fetcher = mkStoreFrontFetcher(
       "ramonetmal2",
-      SHOPIFY_ACCESS_TOKEN,
+      SHOPIFY_STOREFRONT_ACCESS_TOKEN,
     );
 
     const data = await fetcher(`query {
@@ -72,7 +72,7 @@ async function getCustomerOrders(customerId?: string | null) {
   try {
     const fetcher = mkAdminFetcher(
       "ramonetmal2",
-      SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+      SHOPIFY_ACCESS_TOKEN,
     );
     const data = await fetcher(`customers/${customerId}/orders.json`);
 
@@ -94,7 +94,7 @@ async function getOrdersProductImages(orders?: UserOrders | null) {
 
   const fetcher = mkAdminFetcher(
     "ramonetmal2",
-    SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+    SHOPIFY_ACCESS_TOKEN,
   );
 
   const products = await fetcher(
