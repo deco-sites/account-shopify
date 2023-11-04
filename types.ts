@@ -7,3 +7,14 @@ export interface UserInfo {
   email: string;
   phone: string;
 }
+
+export interface UserOrder {
+  "@type": "UserOrder";
+  id: string;
+  name: string;
+  createdAt: string;
+  totalPrice: string;
+  status: string;
+}
+
+export type UserOrders = UserOrder[];

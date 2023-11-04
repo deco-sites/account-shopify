@@ -1,17 +1,25 @@
 import Avatar from "deco-sites/account-shopify/components/ui/Avatar.tsx";
+import { UserOrders } from "$store/types.ts";
 import { useState } from "preact/hooks";
 
+
 export interface Props {
-  title: string;
+  orders: UserOrders | null;
 }
 
 function Button(
-  { label, onClick }: { label: string; onClick: (value: string) => void },
+  { label, onClick, isSelected = false }: {
+    label: string;
+    onClick: (value: string) => void;
+    isSelected?: boolean;
+  },
 ) {
   return (
     <button
       onClick={() => onClick(label)}
-      class="px-10 py-5 text-left border-t-[1px] hover:bg-gray-200 hover:border-l-2 hover:border-l-gray-500 "
+      class={`px-10 py-5 text-left border-t-[1px] hover:bg-gray-200 hover:border-l-2 hover:border-l-gray-500 ${
+        isSelected ? "bg-gray-100 border-l-2 border-l-gray-500" : ""
+      }`}
     >
       {label}
     </button>
@@ -27,8 +35,8 @@ function Field({ label, value }: { label: string; value: string }) {
   );
 }
 
-function MyAccount({}: Props) {
-  const [selectedOption, setSelectedOption] = useState("Dados")
+function MyAccount({ orders }: Props) {
+  const [selectedOption, setSelectedOption] = useState("Pedidos");
 
   return (
     <div class="px-44 py-10 bg-gray-100">
@@ -42,8 +50,16 @@ function MyAccount({}: Props) {
             </div>
           </div>
           <div class="flex flex-col">
-            <Button onClick={setSelectedOption} label="Dados" />
-            <Button onClick={setSelectedOption} label="Pedidos" />
+            <Button
+              onClick={setSelectedOption}
+              label="Dados"
+              isSelected={selectedOption === "Dados"}
+            />
+            <Button
+              onClick={setSelectedOption}
+              label="Pedidos"
+              isSelected={selectedOption === "Pedidos"}
+            />
             <Button onClick={() => {}} label="Endereços" />
             <Button onClick={() => {}} label="Cartões" />
             <Button onClick={() => {}} label="Sair" />
@@ -75,24 +91,27 @@ function MyAccount({}: Props) {
             </div>
           )
           : (
-            <div class="rounded-md w-3/5">
+            <div class="w-3/5">
               <div class="text-3xl text-gray-700 font-bold mb-6">Pedidos</div>
-              <div class="shadow-md bg-white w-full">
-                <div class="grid grid-cols-2 p-10 w-full">
-                  <Field label="Nome" value="Felipe" />
-                  <Field label="Sobrenome" value="Mota" />
-                </div>
-                <div class="grid grid-cols-2 p-10 w-full">
-                  <Field label="E-mail" value="felipemota@gmail.com" />
-                </div>
-                <div class="grid grid-cols-2 p-10 w-full">
-                  <Field label="CPF" value="112.321.654-32" />
-                  <Field label="Gênero" value="Masculino" />
-                </div>
-                <div class="grid grid-cols-2 p-10 w-full">
-                  <Field label="Data de nascimento" value="25/12/1923" />
-                  <Field label="Telefone" value="(83) 9 9664-4966" />
-                </div>
+              <div class="rounded-md  shadow-md bg-white w-full">
+                <table class="w-full">
+                  <tr class="w-full h-10">
+                    <th>ID</th>
+                    <th>Preço Total</th>
+                    <th>Data da compra</th>
+                    <th>Status de Pagamento</th>
+                  </tr>
+                  {orders?.map((order) => {
+                    return (
+                      <tr class="w-full text-center h-10">
+                        <td>{order.name}</td>
+                        <td>{order.totalPrice}</td>
+                        <td>{(new Date(order.createdAt)).toDateString()}</td>
+                        <td>{order.status}</td>
+                      </tr>
+                    );
+                  })}
+                </table>
               </div>
             </div>
           )}

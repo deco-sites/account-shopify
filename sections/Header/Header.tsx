@@ -7,9 +7,9 @@ import type { SiteNavigationElement } from "apps/commerce/types.ts";
 import Alert from "$store/components/header/Alert.tsx";
 import Navbar from "$store/components/header/Navbar.tsx";
 import { headerHeight } from "$store/components/header/constants.ts";
-import { UserInfo } from "$store/types.ts";
+import { UserInfo, UserOrders } from "$store/types.ts";
 import { getCustomerAccessToken } from "$store/utils/user.ts";
-import { mkStoreFrontFetcher } from "$store/utils/storeFront.ts";
+import { mkStoreFrontFetcher, mkAdminFetcher } from "$store/utils/storeFront.ts";
 
 export interface Props {
   alerts: string[];
@@ -27,6 +27,39 @@ export interface Props {
   logo?: { src: ImageWidget; alt: string };
 
   userInfo: UserInfo | null;
+}
+
+function parseOrders(orders: any[]): UserOrders {
+  return orders.map((order) => {
+    return {
+      "@type": "UserOrder",
+      id: order.id,
+      createdAt: order.created_at,
+      totalPrice: order.total_price,
+      name: order.name,
+      status: order.financial_status,
+    };
+  });
+}
+
+async function getCustomerOrders(customerId?: string | null) {
+  if (!customerId) {
+    return null;
+  }
+
+  try {
+    const fetcher = mkAdminFetcher(
+      "ramonetmal2",
+      "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",
+    );
+    const data = await fetcher(`customers/${customerId}/orders.json`);
+
+    const parsedOrders = parseOrders(data.orders);
+    console.log("orders", parsedOrders);
+    return parsedOrders;
+  } catch (err) {
+    return null;
+  }
 }
 
 async function extractUserInfo(token?: string | null) {
