@@ -17,7 +17,7 @@ function LoginModal() {
     email: string;
     password: string;
   }) => {
-    const response = await invoke["deco-sites/account-shopify"].actions.user.login(
+    await invoke["deco-sites/account-shopify"].actions.user.login(
       {
         email,
         password,

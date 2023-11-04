@@ -1,5 +1,6 @@
-import { setCustomerAccessToken } from "deco-sites/account-shopify/utils/user.ts";
-import { mkStoreFrontFetcher } from "deco-sites/account-shopify/utils/storeFront.ts";
+import { setCustomerAccessToken } from "$store/utils/user.ts";
+import { mkStoreFrontFetcher } from "$store/utils/storeFront.ts";
+import { SHOPIFY_STOREFRONT_ACCESS_TOKEN, SHOPIFY_ACCESS_TOKEN, SHOPIFY_STORE_NAME } from "$store/utils/secrets.ts";
 
 export interface Props {
   email: string;
@@ -12,8 +13,8 @@ const action = async (
   ctx: any,
 ): Promise<void> => {
   const fetcher = mkStoreFrontFetcher(
-    "",
-    "",
+    SHOPIFY_STORE_NAME,
+    SHOPIFY_STOREFRONT_ACCESS_TOKEN,
   );
 
   const data = await fetcher(`mutation customerAccessTokenCreate {
@@ -31,8 +32,7 @@ const action = async (
   }`);
 
   try {
-    const token =
-      data.customerAccessTokenCreate.customerAccessToken.accessToken;
+    const token = data.customerAccessTokenCreate.customerAccessToken.accessToken;
     setCustomerAccessToken(ctx.response.headers, token);
     return token
   } catch (error) {
