@@ -38,7 +38,6 @@ function Field({ label, value }: { label: string; value: string }) {
 
 function MyAccount({ orders, userInfo }: Props) {
   const [selectedOption, setSelectedOption] = useState("Pedidos");
-  console.log('userinfo', userInfo)
   return (
     <div class="px-44 py-10 bg-gray-100">
       <div class="flex gap-10">

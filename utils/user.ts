@@ -9,9 +9,6 @@ export const getCustomerAccessToken = (
 ): string | undefined => {
   const cookies = getCookies(headers);
 
-  console.log("request cookies", cookies)
-  console.log("get customer token", cookies[AUTH_COOKIE]);
-
   return cookies[AUTH_COOKIE];
 };
 

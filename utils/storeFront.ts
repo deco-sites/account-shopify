@@ -6,7 +6,6 @@ export const mkAdminFetcher = (
 ): (_: string) => Promise<any> => {
   return async (endpoint: string): Promise<any> => {
     const url = `https://${account}.myshopify.com/admin/api/2023-10/${endpoint}`;
-    console.log("url", url);
     const response = await fetchSafe(
       url,
       {

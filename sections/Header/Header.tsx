@@ -55,7 +55,6 @@ async function getCustomerOrders(customerId?: string | null) {
     const data = await fetcher(`customers/${customerId}/orders.json`);
 
     const parsedOrders = parseOrders(data.orders);
-    console.log("orders", parsedOrders);
     return parsedOrders;
   } catch (err) {
     return null;
