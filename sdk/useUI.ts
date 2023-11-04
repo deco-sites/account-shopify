@@ -10,13 +10,15 @@ const displayMenu = signal(false);
 const displaySearchPopup = signal(false);
 const displaySearchDrawer = signal(false);
 const displayLoginModal = signal(false);
+const userData = signal(null);
 
 const state = {
   displayCart,
   displayMenu,
   displaySearchPopup,
   displaySearchDrawer,
-  displayLoginModal
+  displayLoginModal,
+  userData
 };
 
 // Keyboard event listeners

@@ -15,6 +15,7 @@ export interface UserOrder {
   createdAt: string;
   totalPrice: string;
   status: string;
+  products: string[];
 }
 
 export interface CustomerInfo {

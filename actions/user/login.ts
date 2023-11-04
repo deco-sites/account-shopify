@@ -12,8 +12,8 @@ const action = async (
   ctx: any,
 ): Promise<void> => {
   const fetcher = mkStoreFrontFetcher(
-    "ramonetmal2",
-    "79af056282d74bb4d717152572a3a7ec",
+    "",
+    "",
   );
 
   const data = await fetcher(`mutation customerAccessTokenCreate {

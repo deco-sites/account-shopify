@@ -1,11 +1,11 @@
 import Avatar from "deco-sites/account-shopify/components/ui/Avatar.tsx";
-import { UserOrders, CustomerInfo } from "$store/types.ts";
-import { useState } from "preact/hooks";
-
+import { CustomerInfo, UserOrders } from "$store/types.ts";
+import { useMemo, useState } from "preact/hooks";
 
 export interface Props {
   orders: UserOrders | null;
   userInfo: CustomerInfo | null;
+  productImages: Record<string, string>
 }
 
 function Button(
@@ -36,17 +36,30 @@ function Field({ label, value }: { label: string; value: string }) {
   );
 }
 
-function MyAccount({ orders, userInfo }: Props) {
-  const [selectedOption, setSelectedOption] = useState("Pedidos");
+function MyAccount({ orders, userInfo, productImages }: Props) {
+  const [selectedOption, setSelectedOption] = useState("Dados");
+  console.log('productImages', productImages)
+
+  const initials = useMemo(
+    () =>
+      userInfo && userInfo.firstName && userInfo.lastName
+        ? userInfo.firstName.charAt(0) + userInfo.lastName.charAt(0)
+        : "",
+    [userInfo],
+  );
+
+  console.log('orders', orders)
   return (
     <div class="px-44 py-10 bg-gray-100">
       <div class="flex gap-10">
         <div class="flex flex-col justify-between shadow-md bg-white rounded-md">
           <div class="p-10 text-xl flex gap-5 flex-col h-full items-center justify-center">
-            <Avatar content="FM" />
+            <Avatar
+              content={initials}
+            />
             <div class="flex flex-row">
               <div class="mr-1">Olá</div>
-              <b>Felipe Mota</b>
+              <b>{userInfo?.firstName}</b>
             </div>
           </div>
           <div class="flex flex-col">
@@ -97,10 +110,10 @@ function MyAccount({ orders, userInfo }: Props) {
                 <table class="w-full">
                   <tr class="w-full h-14 border-b">
                     <th>ID</th>
-                    <th>Nome</th>
                     <th>Preço Total</th>
                     <th>Data da compra</th>
                     <th>Status de Pagamento</th>
+                    <th>Imagem</th>
                   </tr>
                   {orders?.map((order) => {
                     return (
@@ -109,6 +122,7 @@ function MyAccount({ orders, userInfo }: Props) {
                         <td>{order.totalPrice}</td>
                         <td>{(new Date(order.createdAt)).toDateString()}</td>
                         <td>{order.status}</td>
+                        <td><img src={productImages[order.products[0]]} alt="product_img" class='w-16 m-auto'/></td>
                       </tr>
                     );
                   })}
