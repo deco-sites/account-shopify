@@ -9,7 +9,11 @@ import Navbar from "$store/components/header/Navbar.tsx";
 import { headerHeight } from "$store/components/header/constants.ts";
 import { UserInfo, UserOrders } from "$store/types.ts";
 import { getCustomerAccessToken } from "$store/utils/user.ts";
-import { mkStoreFrontFetcher, mkAdminFetcher } from "$store/utils/storeFront.ts";
+import {
+  mkAdminFetcher,
+  mkStoreFrontFetcher,
+} from "$store/utils/storeFront.ts";
+import GoogleOAuthUrlParser from "$store/islands/GoogleOAuthUrlParser.tsx";
 
 export interface Props {
   alerts: string[];
@@ -88,6 +92,7 @@ function Header({
 
   return (
     <>
+      <GoogleOAuthUrlParser />
       <header style={{ height: headerHeight }}>
         <Drawers
           menu={{ items }}

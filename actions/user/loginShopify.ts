@@ -1,6 +1,10 @@
 import { setCustomerAccessToken } from "$store/utils/user.ts";
 import { mkStoreFrontFetcher } from "$store/utils/storeFront.ts";
-import { SHOPIFY_STOREFRONT_ACCESS_TOKEN, SHOPIFY_ACCESS_TOKEN, SHOPIFY_STORE_NAME } from "$store/utils/secrets.ts";
+import {
+  SHOPIFY_ACCESS_TOKEN,
+  SHOPIFY_STORE_NAME,
+  SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+} from "$store/utils/secrets.ts";
 
 export interface Props {
   email: string;
@@ -32,11 +36,13 @@ const action = async (
   }`);
 
   try {
-    const token = data.customerAccessTokenCreate.customerAccessToken.accessToken;
+    const token =
+      data.customerAccessTokenCreate.customerAccessToken.accessToken;
+    console.log("set token", token);
     setCustomerAccessToken(ctx.response.headers, token);
-    return token
+    return token;
   } catch (error) {
-    return undefined
+    return undefined;
   }
 };
 

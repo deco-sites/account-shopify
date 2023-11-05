@@ -3,16 +3,28 @@ import { fetchSafe } from "apps/utils/fetch.ts";
 export const mkAdminFetcher = (
   account: string,
   adminApiKey: string,
-): (_: string) => Promise<any> => {
-  return async (endpoint: string): Promise<any> => {
-    const url = `https://${account}.myshopify.com/admin/api/2023-10/${endpoint}`;
+): (
+  endpoint: string,
+  method?: string,
+  version?: string,
+  body?: string,
+) => Promise<any> => {
+  return async (
+    endpoint: string,
+    method: string = "GET",
+    version: string = "2023-10",
+    body?: string,
+  ): Promise<any> => {
+    const url =
+      `https://${account}.myshopify.com/admin/api/${version}/${endpoint}`;
     const response = await fetchSafe(
       url,
       {
-        method: "GET",
+        method,
         headers: {
           "X-Shopify-Access-Token": adminApiKey,
         },
+        body,
       },
     );
 
@@ -25,8 +37,8 @@ export const mkAdminFetcher = (
 export const mkStoreFrontFetcher = (
   account: string,
   storefrontAccessToken: string,
-): (_: string) => Promise<any> => {
-  return async (query: string): Promise<any> => {
+): (query: string, variables?: any) => Promise<any> => {
+  return async (query: string, variables?: any): Promise<any> => {
     const response = await fetchSafe(
       `https://${account}.myshopify.com/api/unstable/graphql.json`,
       {
@@ -37,6 +49,7 @@ export const mkStoreFrontFetcher = (
         },
         body: JSON.stringify({
           query,
+          variables,
         }),
       },
     );
