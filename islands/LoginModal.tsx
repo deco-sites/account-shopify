@@ -31,29 +31,25 @@ function LoginModal(props: Props) {
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const doLogin = useCallback(async ({
-    email,
-    password,
-  }: {
-    email: string;
-    password: string;
-  }) => {
-    setIsLoading(true);
-    setHasError(false);
-    const token = await invoke["deco-sites/account-shopify"].actions.user
-      .loginShopify(
-        {
-          email,
-          password,
-        },
-      );
-    setIsLoading(false);
-    if (token) {
-      location.href = "/my-account";
-    } else {
-      setHasError(true);
-    }
-  }, []);
+  const doLogin = useCallback(
+    async ({ email, password }: { email: string; password: string }) => {
+      setIsLoading(true);
+      setHasError(false);
+      const token = await invoke[
+        "deco-sites/account-shopify"
+      ].actions.user.loginShopify({
+        email,
+        password,
+      });
+      setIsLoading(false);
+      if (token) {
+        location.href = "/my-account";
+      } else {
+        setHasError(true);
+      }
+    },
+    []
+  );
 
   const doLogout = useCallback(async () => {
     await invoke["deco-sites/account-shopify"].actions.user.logout();
@@ -68,7 +64,7 @@ function LoginModal(props: Props) {
         displayLoginModal.value = false;
       }
     },
-    [ref],
+    [ref]
   );
 
   useEffect(() => {
@@ -90,38 +86,37 @@ function LoginModal(props: Props) {
       </div>
       <div class="border-t-[1px] my-7 border-gray-400" />
       {/* Create a form element that receives an email and a password and in the form submit it invokes doLogin */}
-      {userInfo
-        ? (
-          <div class="flex flex-col w-40 gap-5">
-            <a
-              class="underline text-sm text-gray-600 whitespace-nowrap"
-              href="/my-account#option=Dados"
-              onClick={() => {
-                selectedMyAccountTab.value = "Dados";
-              }}
-            >
-              Minha Conta
-            </a>
-            <a
-              class="underline text-sm text-gray-600 whitespace-nowrap"
-              href="/my-account#option=Pedidos"
-              onClick={() => {
-                selectedMyAccountTab.value = "Pedidos";
-              }}
-            >
-              Meus Pedidos
-            </a>
-            <button
-              onClick={doLogout}
-              class="underline text-xs text-gray-600 whitespace-nowrap self-end"
-              href="/my-account"
-            >
-              Sair
-            </button>
-          </div>
-        )
-        : (
-          <>
+      {userInfo ? (
+        <div class="flex flex-col w-40 gap-5">
+          <a
+            class="underline text-sm text-gray-600 whitespace-nowrap"
+            href="/my-account#option=Dados"
+            onClick={() => {
+              selectedMyAccountTab.value = "Dados";
+            }}
+          >
+            Minha Conta
+          </a>
+          <a
+            class="underline text-sm text-gray-600 whitespace-nowrap"
+            href="/my-account#option=Pedidos"
+            onClick={() => {
+              selectedMyAccountTab.value = "Pedidos";
+            }}
+          >
+            Meus Pedidos
+          </a>
+          <button
+            onClick={doLogout}
+            class="underline text-xs text-gray-600 whitespace-nowrap self-end"
+            href="/my-account"
+          >
+            Sair
+          </button>
+        </div>
+      ) : (
+        <>
+          <div>
             <form
               class="flex flex-col gap-5 items-center"
               onSubmit={(e) => {
@@ -146,7 +141,7 @@ function LoginModal(props: Props) {
                 placeholder={"Senha"}
               />
               <button
-                class="bg-red-600 text-white px-5 py-2 rounded-lg w-min disabled:bg-gray-800 disabled:cursor-not-allowed"
+                class="bg-red-600 text-white h-[56px] hover:opacity-90 px-5 min-w-[350px] text-center py-2 rounded-lg w-min disabled:bg-gray-800 disabled:cursor-not-allowed"
                 type="submit"
                 disabled={isLoading}
               >
@@ -158,12 +153,21 @@ function LoginModal(props: Props) {
                 Algo de errado aconteceu, tente novamente.
               </div>
             )}
-          </>
-        )}
-
-      <button onClick={triggerLoginGoogle}>
-        <p>Google Login</p>
-      </button>
+          </div>
+          <div>
+            <button
+              class="flex flex-row justify-center mt-2 hover:opacity-90 items-center bg-blue-600 text-white px-5 min-w-[350px] text-center py-2 rounded-lg"
+              onClick={triggerLoginGoogle}
+            >
+              <img
+                class="h-[40px]"
+                src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png"
+              />
+              <p>Logar com Google</p>
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 }
