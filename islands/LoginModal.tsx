@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 
 const OAUTH_ENDPOINT = "https://accounts.google.com/o/oauth2/v2/auth";
 const OAUTH_SCOPE = "profile email openid";
-const REDIRECT_URI = "http://localhost:8000";
+const REDIRECT_URI = "https://deco-sites-account-shopify.deno.dev/";
 
 export function triggerLoginGoogle() {
   const params = new URLSearchParams({
