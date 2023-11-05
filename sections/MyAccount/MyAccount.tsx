@@ -1,8 +1,11 @@
 import { SectionProps } from "deco/types.ts";
 import MyAccountIsland from "$store/islands/MyAccount.tsx";
-import { UserInfo, UserOrders, CustomerInfo } from "$store/types.ts";
+import { UserInfo, UserOrders, CustomerInfo, Address } from "$store/types.ts";
 import { getCustomerAccessToken } from "$store/utils/user.ts";
-import { SHOPIFY_ACCESS_TOKEN, SHOPIFY_STOREFRONT_ACCESS_TOKEN } from "$store/utils/secrets.ts";
+import {
+  SHOPIFY_ACCESS_TOKEN,
+  SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+} from "$store/utils/secrets.ts";
 import { useUI } from "$store/sdk/useUI.ts";
 import {
   mkAdminFetcher,
@@ -12,6 +15,7 @@ import { useEffect } from "preact/hooks";
 
 export interface Props {
   orders: UserOrders;
+  addresses: Address[];
 }
 
 async function extractUserInfo(token?: string | null) {
@@ -22,7 +26,7 @@ async function extractUserInfo(token?: string | null) {
   try {
     const fetcher = mkStoreFrontFetcher(
       "ramonetmal2",
-      SHOPIFY_STOREFRONT_ACCESS_TOKEN,
+      SHOPIFY_STOREFRONT_ACCESS_TOKEN
     );
 
     const data = await fetcher(`query {
@@ -43,7 +47,8 @@ async function extractUserInfo(token?: string | null) {
       customerId,
     };
   } catch (e) {
-    return null;
+    console.log(e);
+    return e;
   }
 }
 
@@ -69,14 +74,25 @@ async function getCustomerOrders(customerId?: string | null) {
   }
 
   try {
-    const fetcher = mkAdminFetcher(
-      "ramonetmal2",
-      SHOPIFY_ACCESS_TOKEN,
-    );
+    const fetcher = mkAdminFetcher("ramonetmal2", SHOPIFY_ACCESS_TOKEN);
     const data = await fetcher(`customers/${customerId}/orders.json`);
 
     const parsedOrders = parseOrders(data.orders);
     return parsedOrders;
+  } catch (err) {
+    return null;
+  }
+}
+
+async function getCustomerAddresses(customerId?: string | null) {
+  if (!customerId) {
+    return null;
+  }
+
+  try {
+    const fetcher = mkAdminFetcher("ramonetmal2", SHOPIFY_ACCESS_TOKEN);
+    const data = await fetcher(`customers/${customerId}/addresses.json`);
+    return data?.addresses;
   } catch (err) {
     return null;
   }
@@ -91,13 +107,10 @@ async function getOrdersProductImages(orders?: UserOrders | null) {
     return [...acc, ...order.products];
   }, []);
 
-  const fetcher = mkAdminFetcher(
-    "ramonetmal2",
-    SHOPIFY_ACCESS_TOKEN,
-  );
+  const fetcher = mkAdminFetcher("ramonetmal2", SHOPIFY_ACCESS_TOKEN);
 
   const products = await fetcher(
-    `products.json?ids=${allProductIds.join(",")}`,
+    `products.json?ids=${allProductIds.join(",")}`
   );
 
   const productImages: Record<string, string> = {};
@@ -112,16 +125,25 @@ export async function loader(props: Props, _req: Request) {
   const token = getCustomerAccessToken(_req.headers);
   const userInfo = await extractUserInfo(token);
   const orders = await getCustomerOrders(userInfo?.customerId);
-  const productImages = await getOrdersProductImages(orders)
-  return { orders, userInfo, productImages };
+  const addresses = await getCustomerAddresses(userInfo?.customerId);
+  const productImages = await getOrdersProductImages(orders);
+  return { orders, userInfo, productImages, addresses };
 }
 
 function MyAccount({
   orders,
   userInfo,
-  productImages
+  productImages,
+  addresses,
 }: SectionProps<Awaited<ReturnType<typeof loader>>>) {
-  return <MyAccountIsland productImages={productImages} orders={orders} userInfo={userInfo} />;
+  return (
+    <MyAccountIsland
+      addresses={addresses}
+      productImages={productImages}
+      orders={orders}
+      userInfo={userInfo}
+    />
+  );
 }
 
 export default MyAccount;
