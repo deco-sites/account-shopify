@@ -27,7 +27,6 @@ export const mkAdminFetcher = (
         body,
       },
     );
-
     const data = await response.json();
 
     return data;
