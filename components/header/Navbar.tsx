@@ -7,21 +7,22 @@ import CartButtonVDNA from "$store/islands/Header/Cart/vnda.tsx";
 import CartButtonVTEX from "$store/islands/Header/Cart/vtex.tsx";
 import CartButtonWake from "$store/islands/Header/Cart/wake.tsx";
 import Searchbar from "$store/islands/Header/Searchbar.tsx";
-import LoginModal from "$store/islands/LoginModal.tsx";
+import LoginModal, { Props as LoginModalProps } from "$store/islands/LoginModal.tsx";
 import { usePlatform } from "$store/sdk/usePlatform.tsx";
 import type { SiteNavigationElement } from "apps/commerce/types.ts";
 import Image from "apps/website/components/Image.tsx";
 import NavItem from "./NavItem.tsx";
 import { navbarHeight } from "./constants.ts";
 import { UserInfo } from "deco-sites/account-shopify/types.ts";
-export interface Props {
+
+
+export interface Props extends LoginModalProps {
   items: SiteNavigationElement[];
   searchbar?: SearchbarProps;
   logo?: { src: string; alt: string };
-  userInfo?: UserInfo | null
 }
 
-function Navbar({ items, searchbar, logo, userInfo }: Props) {
+function Navbar({ items, searchbar, logo, userInfo, forceModalOpen, loginOptions }: Props) {
   const platform = usePlatform();
 
   return (
@@ -68,7 +69,7 @@ function Navbar({ items, searchbar, logo, userInfo }: Props) {
           {items.map((item) => <NavItem item={item} />)}
         </div>
         <div class="relative flex-none w-44 flex items-center justify-end gap-2">
-          <LoginModal userInfo={userInfo}/>
+          <LoginModal userInfo={userInfo} forceModalOpen={forceModalOpen} loginOptions={loginOptions} />
           <SearchButton />
           <UserButton/>
           <Searchbar searchbar={searchbar} />
