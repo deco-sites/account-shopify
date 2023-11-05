@@ -15,6 +15,7 @@ import {
   mkStoreFrontFetcher,
 } from "$store/utils/storeFront.ts";
 import GoogleOAuthUrlParser from "$store/islands/GoogleOAuthUrlParser.tsx";
+import type { Props as LoginModalProps } from "$store/islands/LoginModal.tsx";
 
 export interface Props {
   alerts: string[];
@@ -31,14 +32,14 @@ export interface Props {
   /** @title Logo */
   logo?: { src: ImageWidget; alt: string };
 
-  userInfo: UserInfo | null;
+  loginModalProps?: Omit<LoginModalProps, "userInfo">;
 }
 
 export async function loader(
   props: Props,
   _req: Request,
   ctx: any,
-): Promise<Props> {
+) {
   const token = getCustomerAccessToken(_req.headers);
 
   return {
@@ -53,6 +54,7 @@ function Header({
   navItems,
   logo,
   userInfo,
+  loginModalProps,
 }: SectionProps<Awaited<ReturnType<typeof loader>>>) {
   const platform = usePlatform();
   const items = navItems ?? [];
@@ -73,6 +75,7 @@ function Header({
               items={items}
               searchbar={searchbar && { ...searchbar, platform }}
               logo={logo}
+              {...loginModalProps}
             />
           </div>
         </Drawers>
