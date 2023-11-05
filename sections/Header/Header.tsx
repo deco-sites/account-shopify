@@ -97,6 +97,7 @@ function Header({
           <div class="bg-base-100 fixed w-full z-50">
             <Alert alerts={alerts} />
             <Navbar
+              userInfo={userInfo}
               items={items}
               searchbar={searchbar && { ...searchbar, platform }}
               logo={logo}

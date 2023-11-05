@@ -13,13 +13,15 @@ import type { SiteNavigationElement } from "apps/commerce/types.ts";
 import Image from "apps/website/components/Image.tsx";
 import NavItem from "./NavItem.tsx";
 import { navbarHeight } from "./constants.ts";
+import { UserInfo } from "deco-sites/account-shopify/types.ts";
 export interface Props {
   items: SiteNavigationElement[];
   searchbar?: SearchbarProps;
   logo?: { src: string; alt: string };
+  userInfo?: UserInfo | null
 }
 
-function Navbar({ items, searchbar, logo }: Props) {
+function Navbar({ items, searchbar, logo, userInfo }: Props) {
   const platform = usePlatform();
 
   return (
@@ -66,7 +68,7 @@ function Navbar({ items, searchbar, logo }: Props) {
           {items.map((item) => <NavItem item={item} />)}
         </div>
         <div class="relative flex-none w-44 flex items-center justify-end gap-2">
-          <LoginModal/>
+          <LoginModal userInfo={userInfo}/>
           <SearchButton />
           <UserButton/>
           <Searchbar searchbar={searchbar} />

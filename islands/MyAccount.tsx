@@ -38,7 +38,6 @@ function Field({ label, value }: { label: string; value: string }) {
 
 function MyAccount({ orders, userInfo, productImages }: Props) {
   const [selectedOption, setSelectedOption] = useState("Dados");
-  console.log('productImages', productImages)
 
   const initials = useMemo(
     () =>
@@ -48,7 +47,6 @@ function MyAccount({ orders, userInfo, productImages }: Props) {
     [userInfo],
   );
 
-  console.log('orders', orders)
   return (
     <div class="px-44 py-10 bg-gray-100">
       <div class="flex gap-10">

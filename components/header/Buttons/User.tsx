@@ -10,9 +10,9 @@ export default function UserButton() {
       <Button
         class="btn-circle btn-sm btn-ghost hidden sm:block"
         aria-label="search icon button"
-        onClick={() => {
-          displayLoginModal.value = !displayLoginModal.value
-        }}
+        onMouseOver={() => {
+          displayLoginModal.value = true
+        }} 
       >
         <Icon id="User" size={24} strokeWidth={0.4} />
       </Button>
