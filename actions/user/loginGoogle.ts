@@ -59,7 +59,9 @@ const action = async (
   ctx: any,
 ): Promise<void> => {
   const googleUser = await getUserInfoFromGoogleToken(props.accessToken);
+  console.log("googleUser", googleUser);
   await ensureShopifyCustomerExists(googleUser);
+  console.log("ensured");
   await loginShopify(
     {
       email: googleUser.email,

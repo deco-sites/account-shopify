@@ -9,6 +9,7 @@ import Navbar from "$store/components/header/Navbar.tsx";
 import { headerHeight } from "$store/components/header/constants.ts";
 import { UserInfo, UserOrders } from "$store/types.ts";
 import { getCustomerAccessToken } from "$store/utils/user.ts";
+import { extractUserInfo } from "$store/utils/shopifyUserInfo.ts";
 import {
   mkAdminFetcher,
   mkStoreFrontFetcher,
@@ -31,40 +32,6 @@ export interface Props {
   logo?: { src: ImageWidget; alt: string };
 
   userInfo: UserInfo | null;
-}
-
-async function extractUserInfo(token?: string | null) {
-  if (!token) {
-    return null;
-  }
-
-  try {
-    const fetcher = mkStoreFrontFetcher(
-      "ramonetmal2",
-      "79af056282d74bb4d717152572a3a7ec",
-    );
-
-    const data = await fetcher(`query {
-      customer(customerAccessToken: "${token}") {
-        id
-        firstName
-        lastName
-        acceptsMarketing
-        email
-        phone
-      }
-    }`);
-
-    const customer = data.customer;
-    const customerId = customer.id.split("/").pop();
-
-    return {
-      ...customer,
-      customerId,
-    };
-  } catch (e) {
-    return null;
-  }
 }
 
 export async function loader(

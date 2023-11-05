@@ -4,6 +4,7 @@ import { Address, CustomerInfo, UserInfo, UserOrders } from "$store/types.ts";
 import { getCustomerAccessToken } from "$store/utils/user.ts";
 import {
   SHOPIFY_ACCESS_TOKEN,
+  SHOPIFY_STORE_NAME,
   SHOPIFY_STOREFRONT_ACCESS_TOKEN,
 } from "$store/utils/secrets.ts";
 import { useUI } from "$store/sdk/useUI.ts";
@@ -12,42 +13,9 @@ import {
   mkStoreFrontFetcher,
 } from "$store/utils/storeFront.ts";
 import { useEffect } from "preact/hooks";
+import { extractUserInfo } from "$store/utils/shopifyUserInfo.ts";
 
 export interface Props {}
-
-async function extractUserInfo(token?: string | null) {
-  if (!token) {
-    return null;
-  }
-
-  try {
-    const fetcher = mkStoreFrontFetcher(
-      "ramonetmal2",
-      SHOPIFY_STOREFRONT_ACCESS_TOKEN
-    );
-
-    const data = await fetcher(`query {
-      customer(customerAccessToken: "${token}") {
-        id
-        firstName
-        lastName
-        acceptsMarketing
-        email
-        phone
-      }
-    }`);
-    const customer: CustomerInfo = data.customer;
-    const customerId = customer.id.split("/").pop();
-
-    return {
-      ...customer,
-      customerId,
-    };
-  } catch (e) {
-    console.log(e);
-    return e;
-  }
-}
 
 function parseOrders(orders: any[]): UserOrders {
   return orders.map((order) => {
@@ -71,7 +39,7 @@ async function getCustomerOrders(customerId?: string | null) {
   }
 
   try {
-    const fetcher = mkAdminFetcher("ramonetmal2", SHOPIFY_ACCESS_TOKEN);
+    const fetcher = mkAdminFetcher(SHOPIFY_STORE_NAME, SHOPIFY_ACCESS_TOKEN);
     const data = await fetcher(`customers/${customerId}/orders.json`);
 
     const parsedOrders = parseOrders(data.orders);
@@ -87,7 +55,7 @@ async function getCustomerAddresses(customerId?: string | null) {
   }
 
   try {
-    const fetcher = mkAdminFetcher("ramonetmal2", SHOPIFY_ACCESS_TOKEN);
+    const fetcher = mkAdminFetcher(SHOPIFY_STORE_NAME, SHOPIFY_ACCESS_TOKEN);
     const data = await fetcher(`customers/${customerId}/addresses.json`);
     return data?.addresses;
   } catch (err) {
@@ -108,10 +76,10 @@ async function getOrdersProductImages(orders?: UserOrders | null) {
     return {};
   }
 
-  const fetcher = mkAdminFetcher("ramonetmal2", SHOPIFY_ACCESS_TOKEN);
+  const fetcher = mkAdminFetcher(SHOPIFY_STORE_NAME, SHOPIFY_ACCESS_TOKEN);
 
   const products = await fetcher(
-    `products.json?ids=${allProductIds.join(",")}`
+    `products.json?ids=${allProductIds.join(",")}`,
   );
 
   const productImages: Record<string, string> = {};
