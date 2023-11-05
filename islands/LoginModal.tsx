@@ -3,6 +3,24 @@ import { UserInfo } from "deco-sites/account-shopify/types.ts";
 import { invoke } from "../runtime.ts";
 import { useCallback, useEffect, useRef, useState } from "preact/hooks";
 
+const OAUTH_ENDPOINT = "https://accounts.google.com/o/oauth2/v2/auth";
+const OAUTH_SCOPE = "profile email openid";
+const REDIRECT_URI = "http://localhost:8000";
+
+export function triggerLogin() {
+  const params = new URLSearchParams({
+    client_id:
+      "983586597102-fnjbm1i6k5f37psvs06o9igplh177pui.apps.googleusercontent.com",
+    redirect_uri: REDIRECT_URI,
+    response_type: "token",
+    scope: OAUTH_SCOPE,
+    state: JSON.stringify({
+      decoAuthProvider: "google",
+    }),
+  });
+  window.location.href = `${OAUTH_ENDPOINT}?${params.toString()}`;
+}
+
 interface Props {
   userInfo?: UserInfo | null;
 }
@@ -20,20 +38,21 @@ function LoginModal(props: Props) {
     email: string;
     password: string;
   }) => {
-    setIsLoading(true)
+    setIsLoading(true);
     setHasError(false);
-    const token = await invoke["deco-sites/account-shopify"].actions.user.login(
-      {
-        email,
-        password,
-      },
-    );
+    const token = await invoke["deco-sites/account-shopify"].actions.user
+      .loginShopify(
+        {
+          email,
+          password,
+        },
+      );
     if (token) {
       location.href = "/my-account";
     } else {
       setHasError(true);
     }
-    setIsLoading(false)
+    setIsLoading(false);
   }, []);
 
   const doLogout = useCallback(async () => {
@@ -97,40 +116,48 @@ function LoginModal(props: Props) {
         )
         : (
           <>
-          <form
-            class="flex flex-col gap-5 items-center"
-            onSubmit={(e) => {
-              e.preventDefault();
-              if (!e.target) {
-                return;
-              }
-              const email = (e.target as any).email.value;
-              const password = (e.target as any).password.value;
-              doLogin({ email, password });
-            }}
+            <form
+              class="flex flex-col gap-5 items-center"
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (!e.target) {
+                  return;
+                }
+                const email = (e.target as any).email.value;
+                const password = (e.target as any).password.value;
+                doLogin({ email, password });
+              }}
             >
-            <input
-              name="email"
-              class="rounded-sm border-2 border-gray-300 p-2"
-              placeholder={"E-mail"}
+              <input
+                name="email"
+                class="rounded-sm border-2 border-gray-300 p-2"
+                placeholder={"E-mail"}
               />
-            <input
-              name="password"
-              type="password"
-              class="rounded-sm border-2 border-gray-300 p-2"
-              placeholder={"Senha"}
+              <input
+                name="password"
+                type="password"
+                class="rounded-sm border-2 border-gray-300 p-2"
+                placeholder={"Senha"}
               />
-            <button
-              class="bg-red-600 text-white px-5 py-2 rounded-lg w-min disabled:bg-gray-800 disabled:cursor-not-allowed"
-              type="submit"
-              disabled={isLoading}
-            >
-              {isLoading ? "Carregando..." : "Entrar"}
-            </button>
-          </form>
-            {hasError && <div class="w-full text-red-700 text-sm text-center mt-5">Algo de errado aconteceu, tente novamente.</div>}
-              </>
+              <button
+                class="bg-red-600 text-white px-5 py-2 rounded-lg w-min disabled:bg-gray-800 disabled:cursor-not-allowed"
+                type="submit"
+                disabled={isLoading}
+              >
+                {isLoading ? "Carregando..." : "Entrar"}
+              </button>
+            </form>
+            {hasError && (
+              <div class="w-full text-red-700 text-sm text-center mt-5">
+                Algo de errado aconteceu, tente novamente.
+              </div>
+            )}
+          </>
         )}
+
+      <button onClick={triggerLogin}>
+        <p>Google Login</p>
+      </button>
     </div>
   );
 }

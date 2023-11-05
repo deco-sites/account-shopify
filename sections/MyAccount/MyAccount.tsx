@@ -1,6 +1,6 @@
 import { SectionProps } from "deco/types.ts";
 import MyAccountIsland from "$store/islands/MyAccount.tsx";
-import { UserInfo, UserOrders, CustomerInfo, Address } from "$store/types.ts";
+import { Address, CustomerInfo, UserInfo, UserOrders } from "$store/types.ts";
 import { getCustomerAccessToken } from "$store/utils/user.ts";
 import {
   SHOPIFY_ACCESS_TOKEN,
@@ -26,7 +26,7 @@ async function extractUserInfo(token?: string | null) {
   try {
     const fetcher = mkStoreFrontFetcher(
       "ramonetmal2",
-      SHOPIFY_STOREFRONT_ACCESS_TOKEN
+      SHOPIFY_STOREFRONT_ACCESS_TOKEN,
     );
 
     const data = await fetcher(`query {
@@ -107,10 +107,14 @@ async function getOrdersProductImages(orders?: UserOrders | null) {
     return [...acc, ...order.products];
   }, []);
 
+  if (allProductIds.length === 0) {
+    return {};
+  }
+
   const fetcher = mkAdminFetcher("ramonetmal2", SHOPIFY_ACCESS_TOKEN);
 
   const products = await fetcher(
-    `products.json?ids=${allProductIds.join(",")}`
+    `products.json?ids=${allProductIds.join(",")}`,
   );
 
   const productImages: Record<string, string> = {};

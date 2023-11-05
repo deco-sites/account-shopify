@@ -2,103 +2,105 @@
 // This file SHOULD be checked into source version control.
 // This file is automatically updated during development when running `dev.ts`.
 
-import * as $$$0 from "./loaders/List/Sections.tsx";
-import * as $$$1 from "./loaders/Layouts/ProductCard.tsx";
-import * as $$$$$$0 from "./sections/Header/Header.tsx";
-import * as $$$$$$1 from "./sections/Links/Shortcuts.tsx";
-import * as $$$$$$2 from "./sections/Links/LinkTree.tsx";
-import * as $$$$$$3 from "./sections/Content/Faq.tsx";
-import * as $$$$$$4 from "./sections/Content/Benefits.tsx";
-import * as $$$$$$5 from "./sections/Content/Testimonials.tsx";
-import * as $$$$$$6 from "./sections/Content/Logos.tsx";
-import * as $$$$$$7 from "./sections/Newsletter/Newsletter.tsx";
-import * as $$$$$$8 from "./sections/Social/WhatsApp.tsx";
-import * as $$$$$$9 from "./sections/Social/InstagramPosts.tsx";
-import * as $$$$$$10 from "./sections/Gallery.tsx";
-import * as $$$$$$11 from "./sections/Product/SearchResult.tsx";
-import * as $$$$$$12 from "./sections/Product/ProductShelfTabbed.tsx";
-import * as $$$$$$13 from "./sections/Product/ProductShelf.tsx";
-import * as $$$$$$14 from "./sections/Product/ImageGallerySlider.tsx";
-import * as $$$$$$15 from "./sections/Product/NotFoundChallenge.tsx";
-import * as $$$$$$16 from "./sections/Product/Wishlist.tsx";
-import * as $$$$$$17 from "./sections/Product/ProductInfo.tsx";
-import * as $$$$$$18 from "./sections/Product/NotFound.tsx";
-import * as $$$$$$19 from "./sections/Product/ImageGalleryFrontBack.tsx";
-import * as $$$$$$20 from "./sections/MyAccount/MyAccount.tsx";
-import * as $$$$$$21 from "./sections/Layout/Grid.tsx";
-import * as $$$$$$22 from "./sections/Layout/GridItem.tsx";
-import * as $$$$$$23 from "./sections/Layout/Flex.tsx";
-import * as $$$$$$24 from "./sections/Layout/Container.tsx";
-import * as $$$$$$25 from "./sections/Footer/Footer.tsx";
-import * as $$$$$$26 from "./sections/Category/CategoryBanner.tsx";
-import * as $$$$$$27 from "./sections/Category/CategoryList.tsx";
-import * as $$$$$$28 from "./sections/Theme/Theme.tsx";
-import * as $$$$$$29 from "./sections/Miscellaneous/CookieConsent.tsx";
-import * as $$$$$$30 from "./sections/Miscellaneous/CampaignTimer.tsx";
-import * as $$$$$$31 from "./sections/Images/ImageGallery.tsx";
-import * as $$$$$$32 from "./sections/Images/ShoppableBanner.tsx";
-import * as $$$$$$33 from "./sections/Images/Carousel.tsx";
-import * as $$$$$$34 from "./sections/Images/BannerGrid.tsx";
-import * as $$$$$$$$$0 from "./actions/user/login.ts";
-import * as $$$$$$$$$1 from "./actions/user/logout.ts";
-import * as $$$$$$$$$$$0 from "./apps/site.ts";
-import * as $$$$$$$$$$$1 from "./apps/decohub.ts";
+import * as $$$0 from "./loaders/Layouts/ProductCard.tsx";
+import * as $$$1 from "./loaders/List/Sections.tsx";
+import * as $$$$$$0 from "./sections/Gallery.tsx";
+import * as $$$$$$1 from "./sections/Footer/Footer.tsx";
+import * as $$$$$$2 from "./sections/MyAccount/MyAccount.tsx";
+import * as $$$$$$3 from "./sections/Category/CategoryBanner.tsx";
+import * as $$$$$$4 from "./sections/Category/CategoryList.tsx";
+import * as $$$$$$5 from "./sections/Images/ShoppableBanner.tsx";
+import * as $$$$$$6 from "./sections/Images/BannerGrid.tsx";
+import * as $$$$$$7 from "./sections/Images/ImageGallery.tsx";
+import * as $$$$$$8 from "./sections/Images/Carousel.tsx";
+import * as $$$$$$9 from "./sections/Layout/Container.tsx";
+import * as $$$$$$10 from "./sections/Layout/Grid.tsx";
+import * as $$$$$$11 from "./sections/Layout/Flex.tsx";
+import * as $$$$$$12 from "./sections/Layout/GridItem.tsx";
+import * as $$$$$$13 from "./sections/Content/Testimonials.tsx";
+import * as $$$$$$14 from "./sections/Content/Logos.tsx";
+import * as $$$$$$15 from "./sections/Content/Faq.tsx";
+import * as $$$$$$16 from "./sections/Content/Benefits.tsx";
+import * as $$$$$$17 from "./sections/Product/Wishlist.tsx";
+import * as $$$$$$18 from "./sections/Product/NotFoundChallenge.tsx";
+import * as $$$$$$19 from "./sections/Product/SearchResult.tsx";
+import * as $$$$$$20 from "./sections/Product/ProductInfo.tsx";
+import * as $$$$$$21 from "./sections/Product/ProductShelf.tsx";
+import * as $$$$$$22 from "./sections/Product/ImageGallerySlider.tsx";
+import * as $$$$$$23 from "./sections/Product/ImageGalleryFrontBack.tsx";
+import * as $$$$$$24 from "./sections/Product/ProductShelfTabbed.tsx";
+import * as $$$$$$25 from "./sections/Product/NotFound.tsx";
+import * as $$$$$$26 from "./sections/Miscellaneous/CampaignTimer.tsx";
+import * as $$$$$$27 from "./sections/Miscellaneous/CookieConsent.tsx";
+import * as $$$$$$28 from "./sections/Social/WhatsApp.tsx";
+import * as $$$$$$29 from "./sections/Social/InstagramPosts.tsx";
+import * as $$$$$$30 from "./sections/Theme/Theme.tsx";
+import * as $$$$$$31 from "./sections/Links/LinkTree.tsx";
+import * as $$$$$$32 from "./sections/Links/Shortcuts.tsx";
+import * as $$$$$$33 from "./sections/Newsletter/Newsletter.tsx";
+import * as $$$$$$34 from "./sections/Header/Header.tsx";
+import * as $$$$$$$$$0 from "./actions/user/loginGoogle.ts";
+import * as $$$$$$$$$1 from "./actions/user/loginShopify.ts";
+import * as $$$$$$$$$2 from "./actions/user/logout.ts";
+import * as $$$$$$$$$$$0 from "./apps/decohub.ts";
+import * as $$$$$$$$$$$1 from "./apps/site.ts";
 
 const manifest = {
   "loaders": {
-    "deco-sites/account-shopify/loaders/Layouts/ProductCard.tsx": $$$1,
-    "deco-sites/account-shopify/loaders/List/Sections.tsx": $$$0,
+    "deco-sites/account-shopify/loaders/Layouts/ProductCard.tsx": $$$0,
+    "deco-sites/account-shopify/loaders/List/Sections.tsx": $$$1,
   },
   "sections": {
-    "deco-sites/account-shopify/sections/Category/CategoryBanner.tsx": $$$$$$26,
-    "deco-sites/account-shopify/sections/Category/CategoryList.tsx": $$$$$$27,
-    "deco-sites/account-shopify/sections/Content/Benefits.tsx": $$$$$$4,
-    "deco-sites/account-shopify/sections/Content/Faq.tsx": $$$$$$3,
-    "deco-sites/account-shopify/sections/Content/Logos.tsx": $$$$$$6,
-    "deco-sites/account-shopify/sections/Content/Testimonials.tsx": $$$$$$5,
-    "deco-sites/account-shopify/sections/Footer/Footer.tsx": $$$$$$25,
-    "deco-sites/account-shopify/sections/Gallery.tsx": $$$$$$10,
-    "deco-sites/account-shopify/sections/Header/Header.tsx": $$$$$$0,
-    "deco-sites/account-shopify/sections/Images/BannerGrid.tsx": $$$$$$34,
-    "deco-sites/account-shopify/sections/Images/Carousel.tsx": $$$$$$33,
-    "deco-sites/account-shopify/sections/Images/ImageGallery.tsx": $$$$$$31,
-    "deco-sites/account-shopify/sections/Images/ShoppableBanner.tsx": $$$$$$32,
-    "deco-sites/account-shopify/sections/Layout/Container.tsx": $$$$$$24,
-    "deco-sites/account-shopify/sections/Layout/Flex.tsx": $$$$$$23,
-    "deco-sites/account-shopify/sections/Layout/Grid.tsx": $$$$$$21,
-    "deco-sites/account-shopify/sections/Layout/GridItem.tsx": $$$$$$22,
-    "deco-sites/account-shopify/sections/Links/LinkTree.tsx": $$$$$$2,
-    "deco-sites/account-shopify/sections/Links/Shortcuts.tsx": $$$$$$1,
+    "deco-sites/account-shopify/sections/Category/CategoryBanner.tsx": $$$$$$3,
+    "deco-sites/account-shopify/sections/Category/CategoryList.tsx": $$$$$$4,
+    "deco-sites/account-shopify/sections/Content/Benefits.tsx": $$$$$$16,
+    "deco-sites/account-shopify/sections/Content/Faq.tsx": $$$$$$15,
+    "deco-sites/account-shopify/sections/Content/Logos.tsx": $$$$$$14,
+    "deco-sites/account-shopify/sections/Content/Testimonials.tsx": $$$$$$13,
+    "deco-sites/account-shopify/sections/Footer/Footer.tsx": $$$$$$1,
+    "deco-sites/account-shopify/sections/Gallery.tsx": $$$$$$0,
+    "deco-sites/account-shopify/sections/Header/Header.tsx": $$$$$$34,
+    "deco-sites/account-shopify/sections/Images/BannerGrid.tsx": $$$$$$6,
+    "deco-sites/account-shopify/sections/Images/Carousel.tsx": $$$$$$8,
+    "deco-sites/account-shopify/sections/Images/ImageGallery.tsx": $$$$$$7,
+    "deco-sites/account-shopify/sections/Images/ShoppableBanner.tsx": $$$$$$5,
+    "deco-sites/account-shopify/sections/Layout/Container.tsx": $$$$$$9,
+    "deco-sites/account-shopify/sections/Layout/Flex.tsx": $$$$$$11,
+    "deco-sites/account-shopify/sections/Layout/Grid.tsx": $$$$$$10,
+    "deco-sites/account-shopify/sections/Layout/GridItem.tsx": $$$$$$12,
+    "deco-sites/account-shopify/sections/Links/LinkTree.tsx": $$$$$$31,
+    "deco-sites/account-shopify/sections/Links/Shortcuts.tsx": $$$$$$32,
     "deco-sites/account-shopify/sections/Miscellaneous/CampaignTimer.tsx":
-      $$$$$$30,
+      $$$$$$26,
     "deco-sites/account-shopify/sections/Miscellaneous/CookieConsent.tsx":
-      $$$$$$29,
-    "deco-sites/account-shopify/sections/MyAccount/MyAccount.tsx": $$$$$$20,
-    "deco-sites/account-shopify/sections/Newsletter/Newsletter.tsx": $$$$$$7,
+      $$$$$$27,
+    "deco-sites/account-shopify/sections/MyAccount/MyAccount.tsx": $$$$$$2,
+    "deco-sites/account-shopify/sections/Newsletter/Newsletter.tsx": $$$$$$33,
     "deco-sites/account-shopify/sections/Product/ImageGalleryFrontBack.tsx":
-      $$$$$$19,
+      $$$$$$23,
     "deco-sites/account-shopify/sections/Product/ImageGallerySlider.tsx":
-      $$$$$$14,
-    "deco-sites/account-shopify/sections/Product/NotFound.tsx": $$$$$$18,
+      $$$$$$22,
+    "deco-sites/account-shopify/sections/Product/NotFound.tsx": $$$$$$25,
     "deco-sites/account-shopify/sections/Product/NotFoundChallenge.tsx":
-      $$$$$$15,
-    "deco-sites/account-shopify/sections/Product/ProductInfo.tsx": $$$$$$17,
-    "deco-sites/account-shopify/sections/Product/ProductShelf.tsx": $$$$$$13,
+      $$$$$$18,
+    "deco-sites/account-shopify/sections/Product/ProductInfo.tsx": $$$$$$20,
+    "deco-sites/account-shopify/sections/Product/ProductShelf.tsx": $$$$$$21,
     "deco-sites/account-shopify/sections/Product/ProductShelfTabbed.tsx":
-      $$$$$$12,
-    "deco-sites/account-shopify/sections/Product/SearchResult.tsx": $$$$$$11,
-    "deco-sites/account-shopify/sections/Product/Wishlist.tsx": $$$$$$16,
-    "deco-sites/account-shopify/sections/Social/InstagramPosts.tsx": $$$$$$9,
-    "deco-sites/account-shopify/sections/Social/WhatsApp.tsx": $$$$$$8,
-    "deco-sites/account-shopify/sections/Theme/Theme.tsx": $$$$$$28,
+      $$$$$$24,
+    "deco-sites/account-shopify/sections/Product/SearchResult.tsx": $$$$$$19,
+    "deco-sites/account-shopify/sections/Product/Wishlist.tsx": $$$$$$17,
+    "deco-sites/account-shopify/sections/Social/InstagramPosts.tsx": $$$$$$29,
+    "deco-sites/account-shopify/sections/Social/WhatsApp.tsx": $$$$$$28,
+    "deco-sites/account-shopify/sections/Theme/Theme.tsx": $$$$$$30,
   },
   "actions": {
-    "deco-sites/account-shopify/actions/user/login.ts": $$$$$$$$$0,
-    "deco-sites/account-shopify/actions/user/logout.ts": $$$$$$$$$1,
+    "deco-sites/account-shopify/actions/user/loginGoogle.ts": $$$$$$$$$0,
+    "deco-sites/account-shopify/actions/user/loginShopify.ts": $$$$$$$$$1,
+    "deco-sites/account-shopify/actions/user/logout.ts": $$$$$$$$$2,
   },
   "apps": {
-    "deco-sites/account-shopify/apps/decohub.ts": $$$$$$$$$$$1,
-    "deco-sites/account-shopify/apps/site.ts": $$$$$$$$$$$0,
+    "deco-sites/account-shopify/apps/decohub.ts": $$$$$$$$$$$0,
+    "deco-sites/account-shopify/apps/site.ts": $$$$$$$$$$$1,
   },
   "name": "deco-sites/account-shopify",
   "baseUrl": import.meta.url,
