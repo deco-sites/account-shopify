@@ -26,7 +26,7 @@ interface Props {
 }
 
 function LoginModal(props: Props) {
-  const { displayLoginModal } = useUI();
+  const { displayLoginModal, selectedMyAccountTab } = useUI();
   const { userInfo } = props;
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -95,13 +95,19 @@ function LoginModal(props: Props) {
           <div class="flex flex-col w-40 gap-5">
             <a
               class="underline text-sm text-gray-600 whitespace-nowrap"
-              href="/my-account"
+              href="/my-account#option=Dados"
+              onClick={() => {
+                selectedMyAccountTab.value = "Dados";
+              }}
             >
               Minha Conta
             </a>
             <a
               class="underline text-sm text-gray-600 whitespace-nowrap"
-              href="/my-account"
+              href="/my-account#option=Pedidos"
+              onClick={() => {
+                selectedMyAccountTab.value = "Pedidos";
+              }}
             >
               Meus Pedidos
             </a>

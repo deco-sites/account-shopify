@@ -50,7 +50,9 @@ async function ensureShopifyCustomerExists(googleUser: GoogleUserInfo) {
     const customerId = data.customerCreate.customer.id;
 
     return customerId;
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 }
 
 const action = async (

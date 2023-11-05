@@ -1,7 +1,7 @@
 import Avatar from "deco-sites/account-shopify/components/ui/Avatar.tsx";
-import { CustomerInfo, UserOrders, Address } from "$store/types.ts";
-import { useMemo, useState } from "preact/hooks";
-
+import { Address, CustomerInfo, UserOrders } from "$store/types.ts";
+import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
+import { useUI } from "$store/sdk/useUI.ts";
 export interface Props {
   orders: UserOrders | null;
   userInfo: CustomerInfo | null;
@@ -40,22 +40,39 @@ function Field({ label, value }: { label: string; value: string }) {
 }
 
 function MyAccount({ orders, userInfo, productImages, addresses }: Props) {
-  const [selectedOption, setSelectedOption] = useState("Dados");
+  const { selectedMyAccountTab } = useUI();
   const [selectedAddressIndex, setSelectedAddressIndex] = useState(0);
+
+  useEffect(() => {
+    // :( sad
+    const hash = location.hash.substring(1);
+    const params = new URLSearchParams(hash);
+    const option = params.get("option");
+    if (option && ["Dados", "Pedidos", "Endereços"].includes(option)) {
+      selectedMyAccountTab.value = option;
+    }
+  }, []);
+
   console.log("addresses", addresses);
   console.log("userInfo", userInfo);
   console.log("productImages", productImages);
 
-  const selectedAddress =
-    addresses.length > 0 ? addresses[selectedAddressIndex] : undefined;
-  
+  const selectedAddress = addresses.length > 0
+    ? addresses[selectedAddressIndex]
+    : undefined;
+
   const initials = useMemo(
     () =>
       userInfo && userInfo.firstName && userInfo.lastName
         ? userInfo.firstName.charAt(0) + userInfo.lastName.charAt(0)
         : "",
-    [userInfo]
+    [userInfo],
   );
+
+  const setSelectedOption = useCallback((value: string) => {
+    selectedMyAccountTab.value = value;
+    location.hash = `option=${value}`;
+  }, []);
 
   console.log("orders", orders);
   return (
@@ -73,23 +90,23 @@ function MyAccount({ orders, userInfo, productImages, addresses }: Props) {
             <Button
               onClick={setSelectedOption}
               label="Dados"
-              isSelected={selectedOption === "Dados"}
+              isSelected={selectedMyAccountTab.value === "Dados"}
             />
             <Button
               onClick={setSelectedOption}
               label="Pedidos"
-              isSelected={selectedOption === "Pedidos"}
+              isSelected={selectedMyAccountTab.value === "Pedidos"}
             />
             <Button
               onClick={setSelectedOption}
               label="Endereços"
-              isSelected={selectedOption === "Endereços"}
+              isSelected={selectedMyAccountTab.value === "Endereços"}
             />
             <Button onClick={() => {}} label="Cartões" />
             <Button onClick={() => {}} label="Sair" />
           </div>
         </div>
-        {selectedOption === "Dados" && (
+        {selectedMyAccountTab.value === "Dados" && (
           <div class="rounded-md w-3/5">
             <div class="text-3xl text-gray-700 font-bold mb-6">
               Dados Pessoais
@@ -113,7 +130,7 @@ function MyAccount({ orders, userInfo, productImages, addresses }: Props) {
             </div>
           </div>
         )}
-        {selectedOption === "Pedidos" && (
+        {selectedMyAccountTab.value === "Pedidos" && (
           <div class="w-3/5">
             <div class="text-3xl text-gray-700 font-bold mb-6">Pedidos</div>
             <div class="rounded-md  shadow-md bg-white w-full">
@@ -146,7 +163,7 @@ function MyAccount({ orders, userInfo, productImages, addresses }: Props) {
             </div>
           </div>
         )}
-        {selectedOption === "Endereços" && (
+        {selectedMyAccountTab.value === "Endereços" && (
           <div class="rounded-md w-3/5">
             <div class="text-3xl text-gray-700 font-bold mb-6">
               Dados do Endereço Selecionado:
