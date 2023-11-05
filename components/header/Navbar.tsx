@@ -1,23 +1,27 @@
 import type { Props as SearchbarProps } from "$store/components/search/Searchbar.tsx";
 import Icon from "$store/components/ui/Icon.tsx";
-import { MenuButton, SearchButton } from "$store/islands/Header/Buttons.tsx";
+import { MenuButton, SearchButton, UserButton } from "$store/islands/Header/Buttons.tsx";
 import CartButtonLinx from "$store/islands/Header/Cart/linx.tsx";
 import CartButtonShopify from "$store/islands/Header/Cart/shopify.tsx";
 import CartButtonVDNA from "$store/islands/Header/Cart/vnda.tsx";
 import CartButtonVTEX from "$store/islands/Header/Cart/vtex.tsx";
 import CartButtonWake from "$store/islands/Header/Cart/wake.tsx";
 import Searchbar from "$store/islands/Header/Searchbar.tsx";
+import LoginModal from "$store/islands/LoginModal.tsx";
 import { usePlatform } from "$store/sdk/usePlatform.tsx";
 import type { SiteNavigationElement } from "apps/commerce/types.ts";
 import Image from "apps/website/components/Image.tsx";
 import NavItem from "./NavItem.tsx";
 import { navbarHeight } from "./constants.ts";
-
-function Navbar({ items, searchbar, logo }: {
+import { UserInfo } from "deco-sites/account-shopify/types.ts";
+export interface Props {
   items: SiteNavigationElement[];
   searchbar?: SearchbarProps;
   logo?: { src: string; alt: string };
-}) {
+  userInfo?: UserInfo | null
+}
+
+function Navbar({ items, searchbar, logo, userInfo }: Props) {
   const platform = usePlatform();
 
   return (
@@ -63,16 +67,18 @@ function Navbar({ items, searchbar, logo }: {
         <div class="flex-auto flex justify-center">
           {items.map((item) => <NavItem item={item} />)}
         </div>
-        <div class="flex-none w-44 flex items-center justify-end gap-2">
+        <div class="relative flex-none w-44 flex items-center justify-end gap-2">
+          <LoginModal userInfo={userInfo}/>
           <SearchButton />
+          <UserButton/>
           <Searchbar searchbar={searchbar} />
-          <a
+          {/* <Button
             class="btn btn-circle btn-sm btn-ghost"
-            href="/login"
+            onClick={() => console.log("ramoinoi")}
             aria-label="Log in"
           >
             <Icon id="User" size={24} strokeWidth={0.4} />
-          </a>
+          </Button> */}
           <a
             class="btn btn-circle btn-sm btn-ghost"
             href="/wishlist"

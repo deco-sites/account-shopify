@@ -9,12 +9,18 @@ const displayCart = signal(false);
 const displayMenu = signal(false);
 const displaySearchPopup = signal(false);
 const displaySearchDrawer = signal(false);
+const displayLoginModal = signal(false);
+const userData = signal(null);
+const selectedMyAccountTab = signal("Dados");
 
 const state = {
   displayCart,
   displayMenu,
   displaySearchPopup,
   displaySearchDrawer,
+  displayLoginModal,
+  userData,
+  selectedMyAccountTab,
 };
 
 // Keyboard event listeners
