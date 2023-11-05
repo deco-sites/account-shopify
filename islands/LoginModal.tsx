@@ -47,12 +47,12 @@ function LoginModal(props: Props) {
           password,
         },
       );
+    setIsLoading(false);
     if (token) {
       location.href = "/my-account";
     } else {
       setHasError(true);
     }
-    setIsLoading(false);
   }, []);
 
   const doLogout = useCallback(async () => {
