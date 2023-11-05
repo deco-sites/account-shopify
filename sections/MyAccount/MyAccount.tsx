@@ -72,7 +72,7 @@ async function getOrdersProductImages(orders?: UserOrders | null) {
     return [...acc, ...order.products];
   }, []);
 
-  if (allProductIds.length === 0) {
+  if (allProductIds?.length === 0) {
     return {};
   }
 
