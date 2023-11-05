@@ -15,7 +15,12 @@ import {
 import { useEffect } from "preact/hooks";
 import { extractUserInfo } from "$store/utils/shopifyUserInfo.ts";
 
-export interface Props {}
+export interface Props {
+  hideUserInfoButton?: boolean
+  hideOrdersButton?: boolean
+  hideAdressesButton?: boolean
+  hideLogoutButton?: boolean
+}
 
 function parseOrders(orders: any[]): UserOrders {
   return orders.map((order) => {
@@ -45,6 +50,7 @@ async function getCustomerOrders(customerId?: string | null) {
     const parsedOrders = parseOrders(data.orders);
     return parsedOrders;
   } catch (err) {
+    console.log('err', err)
     return null;
   }
 }
@@ -96,7 +102,7 @@ export async function loader(props: Props, _req: Request) {
   const orders = await getCustomerOrders(userInfo?.customerId);
   const addresses = await getCustomerAddresses(userInfo?.customerId);
   const productImages = await getOrdersProductImages(orders);
-  return { orders, userInfo, productImages, addresses };
+  return { ...props, orders, userInfo, productImages, addresses };
 }
 
 function MyAccount({
@@ -104,6 +110,10 @@ function MyAccount({
   userInfo,
   productImages,
   addresses,
+  hideAdressesButton,
+  hideLogoutButton,
+  hideOrdersButton,
+  hideUserInfoButton
 }: SectionProps<Awaited<ReturnType<typeof loader>>>) {
   return (
     <MyAccountIsland
@@ -111,6 +121,10 @@ function MyAccount({
       productImages={productImages}
       orders={orders}
       userInfo={userInfo}
+      hideAdressesButton={hideAdressesButton}
+      hideLogoutButton={hideLogoutButton}
+      hideOrdersButton={hideOrdersButton}
+      hideUserInfoButton={hideUserInfoButton}
     />
   );
 }

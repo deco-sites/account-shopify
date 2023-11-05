@@ -2,30 +2,40 @@ import Avatar from "deco-sites/account-shopify/components/ui/Avatar.tsx";
 import { Address, CustomerInfo, UserOrders } from "$store/types.ts";
 import { useCallback, useEffect, useMemo, useState } from "preact/hooks";
 import { useUI } from "$store/sdk/useUI.ts";
+import Icon from "deco-sites/account-shopify/components/ui/Icon.tsx";
+import { AvailableIcons } from "deco-sites/account-shopify/components/ui/Icon.tsx";
+
 export interface Props {
   orders: UserOrders | null;
   userInfo: CustomerInfo | null;
   productImages: Record<string, string>;
   addresses: Address[];
+  hideUserInfoButton?: boolean;
+  hideOrdersButton?: boolean;
+  hideAdressesButton?: boolean;
+  hideLogoutButton?: boolean;
 }
 
 function Button({
   label,
   onClick,
   isSelected = false,
+  icon
 }: {
   label: string;
   onClick: (value: string) => void;
   isSelected?: boolean;
+  icon: AvailableIcons
 }) {
   return (
     <button
       onClick={() => onClick(label)}
-      class={`px-10 py-5 text-left border-t-[1px] hover:bg-gray-200 hover:border-l-2 hover:border-l-gray-500 ${
-        isSelected ? "bg-gray-100 border-l-2 border-l-gray-500" : ""
+      class={`px-10 py-5 text-left border-t-[1px]  hover:bg-gray-200 hover:border-l-2 hover:border-l-gray-500 flex gap-2 ${
+        isSelected ? "bg-gray-100 border-l-2 border-l-gray-500" : "border-l-2 border-l-white"
       }`}
     >
-      {label}
+      <Icon id={icon} size={24} strokeWidth={0.4} />
+      <div>{label}</div>
     </button>
   );
 }
@@ -39,7 +49,18 @@ function Field({ label, value }: { label: string; value: string }) {
   );
 }
 
-function MyAccount({ orders, userInfo, productImages, addresses }: Props) {
+function MyAccount(
+  {
+    orders,
+    userInfo,
+    productImages,
+    addresses,
+    hideUserInfoButton,
+    hideOrdersButton,
+    hideAdressesButton,
+    hideLogoutButton,
+  }: Props,
+) {  
   const { selectedMyAccountTab } = useUI();
   const [selectedAddressIndex, setSelectedAddressIndex] = useState(0);
 
@@ -52,10 +73,6 @@ function MyAccount({ orders, userInfo, productImages, addresses }: Props) {
       selectedMyAccountTab.value = option;
     }
   }, []);
-
-  console.log("addresses", addresses);
-  console.log("userInfo", userInfo);
-  console.log("productImages", productImages);
 
   const selectedAddress = addresses.length > 0
     ? addresses[selectedAddressIndex]
@@ -74,11 +91,10 @@ function MyAccount({ orders, userInfo, productImages, addresses }: Props) {
     location.hash = `option=${value}`;
   }, []);
 
-  console.log("orders", orders);
   return (
     <div class="px-44 py-10 bg-gray-100">
       <div class="flex gap-10">
-        <div class="flex flex-col justify-between shadow-md bg-white rounded-md">
+        <div class="flex flex-col justify-between shadow-md bg-white rounded-md max-h-[420px]">
           <div class="p-10 text-xl flex gap-5 flex-col h-full items-center justify-center">
             <Avatar content={initials} />
             <div class="flex flex-row">
@@ -87,23 +103,29 @@ function MyAccount({ orders, userInfo, productImages, addresses }: Props) {
             </div>
           </div>
           <div class="flex flex-col">
-            <Button
+            {!hideUserInfoButton && <Button
               onClick={setSelectedOption}
-              label="Dados"
+              label="Dados"              icon="User"
+
               isSelected={selectedMyAccountTab.value === "Dados"}
-            />
-            <Button
+            />}
+            
+            {!hideOrdersButton && <Button
               onClick={setSelectedOption}
               label="Pedidos"
+              icon="ShoppingCart"
+
               isSelected={selectedMyAccountTab.value === "Pedidos"}
-            />
-            <Button
+            />}
+            
+            {!hideAdressesButton && <Button
               onClick={setSelectedOption}
               label="Endereços"
+              icon="Truck"
+
               isSelected={selectedMyAccountTab.value === "Endereços"}
-            />
-            <Button onClick={() => {}} label="Cartões" />
-            <Button onClick={() => {}} label="Sair" />
+            />}
+            {!hideLogoutButton && <Button icon="XMark" onClick={() => {}} label="Sair" />}
           </div>
         </div>
         {selectedMyAccountTab.value === "Dados" && (
