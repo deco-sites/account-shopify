@@ -20,18 +20,20 @@ function Button({
   label,
   onClick,
   isSelected = false,
-  icon
+  icon,
 }: {
   label: string;
   onClick: (value: string) => void;
   isSelected?: boolean;
-  icon: AvailableIcons
+  icon: AvailableIcons;
 }) {
   return (
     <button
       onClick={() => onClick(label)}
       class={`px-10 py-5 text-left border-t-[1px]  hover:bg-gray-200 hover:border-l-2 hover:border-l-gray-500 flex gap-2 ${
-        isSelected ? "bg-gray-100 border-l-2 border-l-gray-500" : "border-l-2 border-l-white"
+        isSelected
+          ? "bg-gray-100 border-l-2 border-l-gray-500"
+          : "border-l-2 border-l-white"
       }`}
     >
       <Icon id={icon} size={24} strokeWidth={0.4} />
@@ -49,18 +51,16 @@ function Field({ label, value }: { label: string; value: string }) {
   );
 }
 
-function MyAccount(
-  {
-    orders,
-    userInfo,
-    productImages,
-    addresses,
-    hideUserInfoButton,
-    hideOrdersButton,
-    hideAdressesButton,
-    hideLogoutButton,
-  }: Props,
-) {  
+function MyAccount({
+  orders,
+  userInfo,
+  productImages,
+  addresses,
+  hideUserInfoButton,
+  hideOrdersButton,
+  hideAdressesButton,
+  hideLogoutButton,
+}: Props) {
   const { selectedMyAccountTab } = useUI();
   const [selectedAddressIndex, setSelectedAddressIndex] = useState(0);
 
@@ -74,16 +74,15 @@ function MyAccount(
     }
   }, []);
 
-  const selectedAddress = addresses.length > 0
-    ? addresses[selectedAddressIndex]
-    : undefined;
+  const selectedAddress =
+    addresses.length > 0 ? addresses[selectedAddressIndex] : undefined;
 
   const initials = useMemo(
     () =>
       userInfo && userInfo.firstName && userInfo.lastName
         ? userInfo.firstName.charAt(0) + userInfo.lastName.charAt(0)
         : "",
-    [userInfo],
+    [userInfo]
   );
 
   const setSelectedOption = useCallback((value: string) => {
@@ -92,8 +91,8 @@ function MyAccount(
   }, []);
 
   return (
-    <div class="px-44 py-10 bg-gray-100">
-      <div class="flex gap-10">
+    <div class="px-5 sm:px-20 lg:px-44 py-10 bg-gray-100">
+      <div class="flex gap-10 flex-col lg:flex-row">
         <div class="flex flex-col justify-between shadow-md bg-white rounded-md max-h-[420px]">
           <div class="p-10 text-xl flex gap-5 flex-col h-full items-center justify-center">
             <Avatar content={initials} />
@@ -103,33 +102,39 @@ function MyAccount(
             </div>
           </div>
           <div class="flex flex-col">
-            {!hideUserInfoButton && <Button
-              onClick={setSelectedOption}
-              label="Dados"              icon="User"
+            {!hideUserInfoButton && (
+              <Button
+                onClick={setSelectedOption}
+                label="Dados"
+                icon="User"
+                isSelected={selectedMyAccountTab.value === "Dados"}
+              />
+            )}
 
-              isSelected={selectedMyAccountTab.value === "Dados"}
-            />}
-            
-            {!hideOrdersButton && <Button
-              onClick={setSelectedOption}
-              label="Pedidos"
-              icon="ShoppingCart"
+            {!hideOrdersButton && (
+              <Button
+                onClick={setSelectedOption}
+                label="Pedidos"
+                icon="ShoppingCart"
+                isSelected={selectedMyAccountTab.value === "Pedidos"}
+              />
+            )}
 
-              isSelected={selectedMyAccountTab.value === "Pedidos"}
-            />}
-            
-            {!hideAdressesButton && <Button
-              onClick={setSelectedOption}
-              label="Endereços"
-              icon="Truck"
-
-              isSelected={selectedMyAccountTab.value === "Endereços"}
-            />}
-            {!hideLogoutButton && <Button icon="XMark" onClick={() => {}} label="Sair" />}
+            {!hideAdressesButton && (
+              <Button
+                onClick={setSelectedOption}
+                label="Endereços"
+                icon="Truck"
+                isSelected={selectedMyAccountTab.value === "Endereços"}
+              />
+            )}
+            {!hideLogoutButton && (
+              <Button icon="XMark" onClick={() => {}} label="Sair" />
+            )}
           </div>
         </div>
         {selectedMyAccountTab.value === "Dados" && (
-          <div class="rounded-md w-3/5">
+          <div class="rounded-md w-full lg:w-3/5">
             <div class="text-3xl text-gray-700 font-bold mb-6">
               Dados Pessoais
             </div>
@@ -153,7 +158,7 @@ function MyAccount(
           </div>
         )}
         {selectedMyAccountTab.value === "Pedidos" && (
-          <div class="w-3/5">
+          <div class="w-full lg:w-3/5">
             <div class="text-3xl text-gray-700 font-bold mb-6">Pedidos</div>
             <div class="rounded-md  shadow-md bg-white w-full">
               <table class="w-full">
@@ -186,7 +191,7 @@ function MyAccount(
           </div>
         )}
         {selectedMyAccountTab.value === "Endereços" && (
-          <div class="rounded-md w-3/5">
+          <div class="rounded-md w-full lg:w-3/5">
             <div class="text-3xl text-gray-700 font-bold mb-6">
               Dados do Endereço Selecionado:
             </div>
