@@ -7,7 +7,7 @@ const OAUTH_ENDPOINT = "https://accounts.google.com/o/oauth2/v2/auth";
 const OAUTH_SCOPE = "profile email openid";
 const REDIRECT_URI = "http://localhost:8000";
 
-export function triggerLogin() {
+export function triggerLoginGoogle() {
   const params = new URLSearchParams({
     client_id:
       "983586597102-fnjbm1i6k5f37psvs06o9igplh177pui.apps.googleusercontent.com",
@@ -155,7 +155,7 @@ function LoginModal(props: Props) {
           </>
         )}
 
-      <button onClick={triggerLogin}>
+      <button onClick={triggerLoginGoogle}>
         <p>Google Login</p>
       </button>
     </div>
