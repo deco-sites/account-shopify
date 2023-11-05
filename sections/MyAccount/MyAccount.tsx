@@ -39,7 +39,6 @@ async function extractUserInfo(token?: string | null) {
         phone
       }
     }`);
-
     const customer: CustomerInfo = data.customer;
     const customerId = customer.id.split("/").pop();
 

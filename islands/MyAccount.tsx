@@ -48,7 +48,7 @@ function MyAccount({ orders, userInfo, productImages, addresses }: Props) {
 
   const selectedAddress =
     addresses.length > 0 ? addresses[selectedAddressIndex] : undefined;
-
+  
   const initials = useMemo(
     () =>
       userInfo && userInfo.firstName && userInfo.lastName

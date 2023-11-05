@@ -11,7 +11,7 @@ const action = async (
   props: Props,
   _req: Request,
   ctx: any,
-): Promise<void> => {
+): Promise<string | undefined> => {
   const fetcher = mkStoreFrontFetcher(
     SHOPIFY_STORE_NAME,
     SHOPIFY_STOREFRONT_ACCESS_TOKEN,

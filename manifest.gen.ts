@@ -40,6 +40,7 @@ import * as $$$$$$32 from "./sections/Images/ShoppableBanner.tsx";
 import * as $$$$$$33 from "./sections/Images/Carousel.tsx";
 import * as $$$$$$34 from "./sections/Images/BannerGrid.tsx";
 import * as $$$$$$$$$0 from "./actions/user/login.ts";
+import * as $$$$$$$$$1 from "./actions/user/logout.ts";
 import * as $$$$$$$$$$$0 from "./apps/site.ts";
 import * as $$$$$$$$$$$1 from "./apps/decohub.ts";
 
@@ -93,6 +94,7 @@ const manifest = {
   },
   "actions": {
     "deco-sites/account-shopify/actions/user/login.ts": $$$$$$$$$0,
+    "deco-sites/account-shopify/actions/user/logout.ts": $$$$$$$$$1,
   },
   "apps": {
     "deco-sites/account-shopify/apps/decohub.ts": $$$$$$$$$$$1,
