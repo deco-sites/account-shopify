@@ -21,13 +21,22 @@ export function triggerLoginGoogle() {
   window.location.href = `${OAUTH_ENDPOINT}?${params.toString()}`;
 }
 
-interface Props {
+export interface Props {
   userInfo?: UserInfo | null;
+  forceModalOpen?: boolean;
+  loginOptions?: {
+    hideLoginByPassword?: boolean;
+    hideGoogleLogin?: boolean;
+    google?: {
+      clientId: string;
+      redirectUri: string;
+    };
+  };
 }
 
 function LoginModal(props: Props) {
   const { displayLoginModal, selectedMyAccountTab } = useUI();
-  const { userInfo } = props;
+  const { userInfo, forceModalOpen, loginOptions } = props;
   const [hasError, setHasError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -48,7 +57,7 @@ function LoginModal(props: Props) {
         setHasError(true);
       }
     },
-    []
+    [],
   );
 
   const doLogout = useCallback(async () => {
@@ -64,7 +73,7 @@ function LoginModal(props: Props) {
         displayLoginModal.value = false;
       }
     },
-    [ref]
+    [ref],
   );
 
   useEffect(() => {
@@ -78,7 +87,7 @@ function LoginModal(props: Props) {
     <div
       ref={ref}
       class={`${
-        displayLoginModal.value ? "block" : "hidden"
+        displayLoginModal.value || forceModalOpen ? "block" : "hidden"
       } top-12 absolute flex flex-col rounded-lg shadow-md bg-white p-10`}
     >
       <div class="w-full text-center font-bold">
@@ -86,88 +95,94 @@ function LoginModal(props: Props) {
       </div>
       <div class="border-t-[1px] my-7 border-gray-400" />
       {/* Create a form element that receives an email and a password and in the form submit it invokes doLogin */}
-      {userInfo ? (
-        <div class="flex flex-col w-40 gap-5">
-          <a
-            class="underline text-sm text-gray-600 whitespace-nowrap"
-            href="/my-account#option=Dados"
-            onClick={() => {
-              selectedMyAccountTab.value = "Dados";
-            }}
-          >
-            Minha Conta
-          </a>
-          <a
-            class="underline text-sm text-gray-600 whitespace-nowrap"
-            href="/my-account#option=Pedidos"
-            onClick={() => {
-              selectedMyAccountTab.value = "Pedidos";
-            }}
-          >
-            Meus Pedidos
-          </a>
-          <button
-            onClick={doLogout}
-            class="underline text-xs text-gray-600 whitespace-nowrap self-end"
-            href="/my-account"
-          >
-            Sair
-          </button>
-        </div>
-      ) : (
-        <>
-          <div>
-            <form
-              class="flex flex-col gap-5 items-center"
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (!e.target) {
-                  return;
-                }
-                const email = (e.target as any).email.value;
-                const password = (e.target as any).password.value;
-                doLogin({ email, password });
+      {userInfo
+        ? (
+          <div class="flex flex-col w-40 gap-5">
+            <a
+              class="underline text-sm text-gray-600 whitespace-nowrap"
+              href="/my-account#option=Dados"
+              onClick={() => {
+                selectedMyAccountTab.value = "Dados";
               }}
             >
-              <input
-                name="email"
-                class="rounded-sm border-2 border-gray-300 p-2"
-                placeholder={"E-mail"}
-              />
-              <input
-                name="password"
-                type="password"
-                class="rounded-sm border-2 border-gray-300 p-2"
-                placeholder={"Senha"}
-              />
-              <button
-                class="bg-red-600 text-white h-[56px] hover:opacity-90 px-5 min-w-[350px] text-center py-2 rounded-lg w-min disabled:bg-gray-800 disabled:cursor-not-allowed"
-                type="submit"
-                disabled={isLoading}
-              >
-                {isLoading ? "Carregando..." : "Entrar"}
-              </button>
-            </form>
-            {hasError && (
-              <div class="w-full text-red-700 text-sm text-center mt-5">
-                Algo de errado aconteceu, tente novamente.
-              </div>
-            )}
-          </div>
-          <div>
-            <button
-              class="flex flex-row justify-center mt-2 hover:opacity-90 items-center bg-blue-600 text-white px-5 min-w-[350px] text-center py-2 rounded-lg"
-              onClick={triggerLoginGoogle}
+              Minha Conta
+            </a>
+            <a
+              class="underline text-sm text-gray-600 whitespace-nowrap"
+              href="/my-account#option=Pedidos"
+              onClick={() => {
+                selectedMyAccountTab.value = "Pedidos";
+              }}
             >
-              <img
-                class="h-[40px]"
-                src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png"
-              />
-              <p>Logar com Google</p>
+              Meus Pedidos
+            </a>
+            <button
+              onClick={doLogout}
+              class="underline text-xs text-gray-600 whitespace-nowrap self-end"
+              href="/my-account"
+            >
+              Sair
             </button>
           </div>
-        </>
-      )}
+        )
+        : (
+          <>
+            {!loginOptions?.hideLoginByPassword && (
+              <div>
+                <form
+                  class="flex flex-col gap-5 items-center"
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (!e.target) {
+                      return;
+                    }
+                    const email = (e.target as any).email.value;
+                    const password = (e.target as any).password.value;
+                    doLogin({ email, password });
+                  }}
+                >
+                  <input
+                    name="email"
+                    class="rounded-sm border-2 border-gray-300 p-2 w-full"
+                    placeholder={"E-mail"}
+                  />
+                  <input
+                    name="password"
+                    type="password"
+                    class="rounded-sm border-2 border-gray-300 p-2 w-full"
+                    placeholder={"Senha"}
+                  />
+                  <button
+                    class="bg-red-600 text-white h-[56px] hover:opacity-90 px-5 min-w-[350px] text-center py-2 rounded-lg w-min disabled:bg-gray-800 disabled:cursor-not-allowed"
+                    type="submit"
+                    disabled={isLoading}
+                  >
+                    {isLoading ? "Carregando..." : "Entrar"}
+                  </button>
+                </form>
+                {hasError && (
+                  <div class="w-full text-red-700 text-sm text-center mt-5">
+                    Algo de errado aconteceu, tente novamente.
+                  </div>
+                )}
+              </div>
+            )}
+            {!loginOptions?.hideGoogleLogin && (
+              <div>
+                <button
+                  class="flex flex-row justify-center mt-2 hover:opacity-90 items-center bg-blue-600 text-white px-5 min-w-[350px] text-center py-2 rounded-lg"
+                  onClick={triggerLoginGoogle}
+                >
+                  <img
+                    class="h-[40px]"
+                    src="https://cdn1.iconfinder.com/data/icons/google-s-logo/150/Google_Icons-09-512.png"
+                  />
+                  <p>Logar com Google</p>
+                </button>
+              </div>
+            )}
+          </>
+        )}
     </div>
   );
 }
